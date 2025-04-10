@@ -16,4 +16,9 @@ public class Bomb : GameObject
         _y += _speed;
     }
 
+    // public bool LoseLife()
+    // {
+    //     return _life = false;
+    // }
+
 }

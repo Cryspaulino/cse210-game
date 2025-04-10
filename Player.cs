@@ -2,12 +2,15 @@ using Raylib_cs;
 public class Player : GameObject
 {
 
-    public Player(int x, int y, int speed) : base(x, y, speed)
-    { }
+
+    public Player(int x, int y, int speed, int width) : base(x, y, speed)
+    { 
+        _width = width;
+    }
 
     public override void Draw()
     {
-        Raylib.DrawRectangle(_x, _y, 50, 10, Color.Blue);
+        Raylib.DrawRectangle(_x, _y, _width, 10, Color.Blue);
     }
 
     public override void ProcessActions()
@@ -22,14 +25,14 @@ public class Player : GameObject
             MoveRight();
         }
 
-        // if (GetLeftEdge() < GameManager.SCREEN_WIDTH)
-        // {
-        //     _x = 0;
-        // }
-        // if (GetRightEdge() > GameManager.SCREEN_WIDTH)
-        // {
-        //     _x = GameManager.SCREEN_WIDTH - 60;
-        // }
+        if (GetLeftEdge() < 0)
+        {
+            _x = 0;
+        }
+        else if (GetRightEdge() > GameManager.SCREEN_WIDTH)
+        {
+            _x = GameManager.SCREEN_WIDTH - _width;
+        }
     }
 
     public void MoveLeft()
@@ -41,5 +44,26 @@ public class Player : GameObject
     {
         _x += _speed;
     }
+
+    
+
+
+    // public override void CollideWith(GameObject other)
+    // {
+    //     _score = 0;
+    //     _life = 3;
+    //     if (other is Treasure)
+    //     {
+    //         Treasure treasure = (Treasure)other;
+    //         _score += treasure.GetPoint();
+    //         Treasure.Kill();
+    //     }
+    //     else if (other is Bomb)
+    //     {
+    //         Bomb bomb = (Bomb)other;
+    //         _life -= bomb.LoseLife();
+    //         Bomb.Kill();
+    //     }
+
 
 }

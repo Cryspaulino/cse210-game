@@ -5,7 +5,7 @@ class GameManager
 {
     public const int SCREEN_WIDTH = 800;
     public const int SCREEN_HEIGHT = 600;
-    public const double SPAWN_POINTS_RATE = 0.05;
+    public const double SPAWN_POINTS_RATE = 0.02;
     public const double SPAWN_BOMBS_RATE = 0.02;
     private string _title;
 
@@ -53,20 +53,19 @@ class GameManager
     // private Player p;
     private void InitializeGame()
     {
-        Player p = new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 10);
+        Player p = new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 10, 50);
         _gameObjects.Add(p);
 
-        SpawnItems();
 
-        Treasure t1 = new Treasure(50, 50, 8);
-        Treasure t2 = new Treasure(100,50, 10);
-        _gameObjects.Add(t1);
-        _gameObjects.Add(t2);
+        // Treasure t1 = new Treasure(50, 50, 8);
+        // Treasure t2 = new Treasure(100,50, 10);
+        // _gameObjects.Add(t1);
+        // _gameObjects.Add(t2);
 
-        Bomb b1 = new Bomb(70, 50, 11);
-        Bomb b2 = new Bomb(300,50, 4);
-        _gameObjects.Add(b1);
-        _gameObjects.Add(b2);
+        // Bomb b1 = new Bomb(70, 50, 11);
+        // Bomb b2 = new Bomb(300,50, 4);
+        // _gameObjects.Add(b1);
+        // _gameObjects.Add(b2);
 
     }
 
@@ -85,7 +84,7 @@ class GameManager
         if (treasureAmount < SPAWN_POINTS_RATE)
         {
             int x = random.Next(0, SCREEN_WIDTH);
-            Treasure treasure = new Treasure(x,0,10);
+            Treasure treasure = new Treasure(x,0,random.Next(5,8));
             _gameObjects.Add(treasure);
         }
 
@@ -94,7 +93,7 @@ class GameManager
         if (bombAmount < SPAWN_BOMBS_RATE)
         {
             int x = random.Next(0, SCREEN_WIDTH);
-            Bomb bomb = new Bomb(x,0,8);
+            Bomb bomb = new Bomb(x,0,random.Next(5,8));
             _gameObjects.Add(bomb);
         }
     }
@@ -111,6 +110,11 @@ class GameManager
 
     }
 
+    private void CleanItems()
+    {
+        // _gameObjects.RemoveAll(e => ! e.isAlive());
+    }
+
     /// <summary>
     /// Processes any actions such as moving objects or handling collisions.
     /// </summary>
@@ -121,6 +125,23 @@ class GameManager
             item.ProcessActions();
         }
 
+        // for (int i = 0; i < _gameObjects.Count; i++)
+        // {
+        //     for (int j = i + 1; j < _gameObjects.Count; j++)
+        //     {
+        //         GameObject first = _gameObjects[i];
+        //         GameObject second = _gameObjects[j];
+
+        //         if (IsCollision(first, second))
+        //         {
+        //             first.CollideWith(second);
+        //             second.CollideWith(first);
+        //         }
+        //     }
+        // }
+
+        SpawnItems();
+        CleanItems();
         //SpawnItems() and Clean()
         //  if (Raylib.IsKeyDown(KeyboardKey.Left))
         //     {
@@ -133,8 +154,23 @@ class GameManager
             // }
     }
 
+    private bool IsCollision(GameObject first, GameObject second)
+    {
+        bool areTouching = false;
 
-// ADD FUNCTION TO SPAWN, CHECK EXAMPLE
+        if(first.GetRightEdge() >= second.GetLeftEdge()
+        && first.GetLeftEdge() <= second.GetRightEdge()
+        && first.GetBottomEdge() >= second.GetTopEdge()
+        && first.GetTopEdge() <= second.GetBottomEdge())
+        {
+           return areTouching != false;
+        }
+
+        else {return areTouching;}
+
+    }
+
+
 
 
 

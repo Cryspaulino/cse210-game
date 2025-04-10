@@ -5,12 +5,17 @@ public abstract class GameObject
     protected int _width;
     protected int _height;
     protected int _speed;
+    // protected int _score;
+    // protected bool _life;
+
 
     public GameObject(int x, int y, int speed)
     {
         _x = x;
         _y = y;
         _speed = speed;
+        // _score = score;
+        // _life = life;
     }
 
     public abstract void Draw();
@@ -39,4 +44,17 @@ public abstract class GameObject
     {
 
     }
+
+    public virtual void CollideWith()
+    {}
+
+    // public virtual bool IsAlive()
+    // {
+    //     return _life = true;
+    // }
+
+    // public virtual bool Kill()
+    // {
+    //     return _life = false;
+    // }
 }
